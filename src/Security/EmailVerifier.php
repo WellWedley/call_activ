@@ -32,7 +32,7 @@ class EmailVerifier
         $_ENV['MAILER_DSN'] ;  
         $MJ_APIKEY_PUBLIC=$_ENV['MJ_APIKEY_PUBLIC'] ;  
         $MJ_APIKEY_PRIVATE = $_ENV['MJ_APIKEY_PRIVATE'] ;  
-        $SENDER_EMAIL = "contact@webboxfactory.com"; 
+        $SENDER_EMAIL = $_ENV['WEBSITE_EMAIL']; 
         $RECIPIENT_EMAIL = $user->getEmail() ;
         
         //$context = $emailBody->getContext();
