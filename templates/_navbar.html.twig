@@ -7,5 +7,11 @@
 
     <li><a href="{{path('app_login')}}" role="button">Connexion</a></li>
     <li><a href="{{path('app_register')}}" role="button">Inscription</a></li>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+     <li><a href="{{path('app_logout')}}" role="button">Déconnexion</a></li>
+    
+{% endif %}
+   
   </ul>
 </nav>

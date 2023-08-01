@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ActivityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,6 +33,14 @@ class Activity
 
     #[ORM\ManyToOne(inversedBy: 'activities')]
     private ?Category $category = null;
+
+    #[ORM\ManyToMany(targetEntity: Squad::class, inversedBy: 'activities')]
+    private Collection $Squad;
+
+    public function __construct()
+    {
+        $this->Squad = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -93,6 +103,30 @@ class Activity
     public function setDate(\DateTimeInterface $Date): static
     {
         $this->Date = $Date;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Squad>
+     */
+    public function getSquad(): Collection
+    {
+        return $this->Squad;
+    }
+
+    public function addSquad(Squad $squad): static
+    {
+        if (!$this->Squad->contains($squad)) {
+            $this->Squad->add($squad);
+        }
+
+        return $this;
+    }
+
+    public function removeSquad(Squad $squad): static
+    {
+        $this->Squad->removeElement($squad);
 
         return $this;
     }
