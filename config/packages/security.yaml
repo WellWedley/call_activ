@@ -16,8 +16,9 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            entry_point: App\Security\AuthenticationEntryPoint
             form_login: 
-                login_path: app_login
+                login_path: app_dashboard
                 check_path: app_login
             login_throttling:
                 max_attempts: 3          # per minute ...
