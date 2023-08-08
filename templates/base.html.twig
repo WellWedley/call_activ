@@ -3,7 +3,9 @@
     <head>
 
         <meta charset="UTF-8">
-        <title>{% block title %}Call' Activ' | {{  controller_name}}{% endblock %}</title>
+        <title>
+        {% block title %}Call' Activ' | {{  controller_name}}{% endblock %}</title>
+
         {% block stylesheets %}
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
         {% endblock %}
@@ -14,9 +16,14 @@
 
     </head>
     <body>
+      {%  include "_navbar.html.twig" %}
 
         {% block body %}
+      
         
+            {% if error %}
+                <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
         
         {% endblock %}
         

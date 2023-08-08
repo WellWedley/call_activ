@@ -49,16 +49,17 @@ class EmailVerifier
                     'To' => [
                         [
                             'Email' => "$RECIPIENT_EMAIL",
-                            'Name' => ""
+                            'Name' => $user->getPrenom(),
                         ]
                     ],
                     'Subject' => "Merci de confirmer votre Email",
                     'TextPart' => "Bienvenue sur Call'Activ ",
-                    'HTMLPart' => "Merci de cliquer sur le lien ci-desous afin de vérifier votre compte.
-                    <a href=/".$signatureComponents->getSignedUrl().">Confirmer mon compte</a>"
+                    'HTMLPart' => "Merci de cliquer sur le lien ci-desous afin de vérifier votre compte. <br>
+                    <a href=".$signatureComponents->getSignedUrl().">Confirmer mon compte</a>"
                 ]
             ]
         ];
+        
         
         $mj = new \Mailjet\Client($MJ_APIKEY_PUBLIC, $MJ_APIKEY_PRIVATE,true,['version' => 'v3.1']);
         $response = $mj->post(Resources::$Email, ['body' => $body]);
@@ -74,7 +75,6 @@ class EmailVerifier
         $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), $user->getId(), $user->getEmail());
 
         $user->setIsVerified(true);
-
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
