@@ -3,14 +3,20 @@
 
 {% block body %}
 
-   <form action="{{ path('app_dashboard') }}" method="post">
+	<div class="container-sm">
 
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}">
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password">
-         
-        <button type="submit">login</button>
-    </form>
+		<form action="{{ path('app_dashboard') }}" method="post">
+
+
+			<label for="username">Email:</label>
+			<input required type="text" id="username" name="_username" value="{{ last_username }}">
+
+
+			<label for="password">Password:</label>
+			<input required type="password" id="password" name="_password">
+
+			<button type="submit">login</button>
+		</form>
+	</div>
 {% endblock %}

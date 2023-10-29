@@ -5,7 +5,8 @@
   <ul>
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-         <li><a href="{{path('app_logout')}}" role="button">Déconnexion</a></li>
+        <li><a href="{{path('app_account')}}" role="button">Mon Compte</a></li>
+        <li><a href="{{path('app_logout')}}" role="button">Déconnexion</a></li>
     {% else %}
 
         <li><a href="{{path('app_login')}}" role="button">Connexion</a></li>

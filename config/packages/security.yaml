@@ -9,6 +9,10 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+    role_hierarchy: 
+        ROLE_ADMIN: ROLE_LEADER
+        ROLE_LEADER: ROLE_USER   
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -17,8 +21,8 @@ security:
             lazy: true
             provider: app_user_provider
             form_login: 
-                login_path: app_dashboard
-                check_path: app_dashboard
+                login_path: app_login
+                check_path: app_login
                 default_target_path: app_dashboard
 
         
