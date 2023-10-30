@@ -15,23 +15,27 @@ class LoginController extends AbstractController
 
         // Get login errors, if any
         $error = $authenticationUtils->getLastAuthenticationError();
-            
+
         // Last username entered by the user 
-        $lastUsername = $authenticationUtils->getLastUsername() ; 
+        $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('login/index.html.twig', [
-            'controller_name'=> 'Connexion', 
+            'controller_name' => 'Connexion',
             'last_username' => $lastUsername,
-            'error'=> $error
+            'error' => $error
         ]);
-  
+
     }
 
 
     #[Route('/logout', name: 'app_logout')]
-    public function logout() : never {
-        throw New \Exception('Utilisateur déconnecté '); 
+    public function logout(): never
+    {
+        throw new \Exception('Utilisateur déconnecté ');
     }
+
+
+
 
 
 }
