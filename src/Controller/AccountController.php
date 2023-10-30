@@ -37,7 +37,7 @@ class AccountController extends AbstractController
             ->render(
                 'dashboard/_show.html.twig',
                 [
-
+                    'controller_name' => 'Mon compte',
                     'squad' => $squad,
 
                 ]
