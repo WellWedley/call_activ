@@ -26,6 +26,7 @@ security:
                 default_target_path: app_dashboard
             logout:
                 path: app_logout    
+            custom_authenticator: App\Security\LoginControllerAuthenticator
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
