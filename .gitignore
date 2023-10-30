@@ -20,3 +20,6 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 /.env
+
+### MacOS
+.DS_STORE
