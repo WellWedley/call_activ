@@ -19,7 +19,7 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-/.env
+# /.env
 
 ### MacOS
 /.DS_STORE
