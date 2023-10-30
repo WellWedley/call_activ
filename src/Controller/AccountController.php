@@ -35,7 +35,7 @@ class AccountController extends AbstractController
 
         return $this
             ->render(
-                'dashboard/show.html.twig',
+                'dashboard/_show.html.twig',
                 [
 
                     'squad' => $squad,
