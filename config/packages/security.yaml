@@ -20,13 +20,13 @@ security:
         main:
             lazy: true
             provider: app_user_provider
-            form_login: 
-                login_path: app_login
-                check_path: app_dashboard
-                default_target_path: app_dashboard
+            entry_point: App\Security\LoginControllerAuthenticator
+            custom_authenticator: 
+                - App\Security\LoginControllerAuthenticator
+
             logout:
-                path: app_logout    
-            custom_authenticator: App\Security\LoginControllerAuthenticator
+                path: app_logout   
+                target: app_home 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
