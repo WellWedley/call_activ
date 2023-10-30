@@ -22,4 +22,4 @@
 /.env
 
 ### MacOS
-.DS_STORE
+/.DS_STORE
