@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+{% block body %}
+	<div class="container">
+		<h1>Mes Squads</h1>
+		<div class="row">
+			{% for squad in squad %}
+				<div class="col">
+					<div class="row">
+						{{squad.name}}
+					</div>
+					<div class="row">
+						{{squad.id}}
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+	<!-- Modal -->
+	<dialog id="modal-example">
+		<article>
+			<a href="#close" aria-label="Close" class="close" data-target="modal-example" onclick="toggleModal(event)"></a>
+			<h3>Créer une nouvelle Squad</h3>
+			<p></p>
+			<footer>
+				<a href="#cancel" role="button" class="secondary" data-target="modal-example" onclick="toggleModal(event)">
+					Annuler
+				</a>
+
+			</footer>
+		</p>
+	</article>
+</dialog>{% endblock %}

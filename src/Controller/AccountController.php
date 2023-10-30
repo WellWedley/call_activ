@@ -35,7 +35,7 @@ class AccountController extends AbstractController
 
         return $this
             ->render(
-                'dashboard/_show.html.twig',
+                'dashboard/show.html.twig',
                 [
                     'controller_name' => 'Mon compte',
                     'squad' => $squad,
@@ -46,7 +46,7 @@ class AccountController extends AbstractController
 
 
 
-    #[Route(path: '/', name: '_edit')]
+    #[Route(path: '/edit', name: '_edit')]
     public function editAccount(EntityManagerInterface $em, Request $request, UserPasswordHasherInterface $userPasswordHasher, #[CurrentUser] $user): Response
     {
 

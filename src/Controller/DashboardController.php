@@ -38,8 +38,9 @@ class DashboardController extends AbstractController
 
         $formView = $form->createView();
 
-        return $this->render('dashboard/index.html.twig', [
+        return $this->render('dashboard/show.html.twig', [
             'controller_name' => 'DashboardController',
+            "squad" => $squad,
             'formView' => $formView
         ]);
     }
