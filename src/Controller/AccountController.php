@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use App\Form\UserType;
 use App\Repository\SquadRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,38 +12,21 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-
+use App\Controller\SquadController;
 
 #[Route('/account', name: 'app_account')]
+#[IsGranted('ROLE_USER', statusCode: 403, exceptionCode: 10010)]
+
 class AccountController extends AbstractController
 {
     #[Route(path: '/', name: '_index')]
-    #[IsGranted('ROLE_USER', statusCode: 403, exceptionCode: 10010)]
-    public function showSquads(
 
-        SquadRepository $SquadRepository,
-    ) {
+    public function index(SquadController $squad, SquadRepository $squadRepository): Response
+    {
 
-        $squad = $SquadRepository
-            ->findAll();
+        return $squad->showSquads($squadRepository);
 
-
-        if (!$squad) {
-            throw $this->createNotFoundException('Aucune squad à afficher pour le moment');
-        }
-
-        return $this
-            ->render(
-                'dashboard/show.html.twig',
-                [
-                    'controller_name' => 'Mon compte',
-                    'squad' => $squad,
-
-                ]
-            );
     }
-
-
 
     #[Route(path: '/edit', name: '_edit')]
     public function editAccount(EntityManagerInterface $em, Request $request, UserPasswordHasherInterface $userPasswordHasher, #[CurrentUser] $user): Response
@@ -55,14 +37,7 @@ class AccountController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                ))
-
-            ;
-
+            $user->setPassword($userPasswordHasher->hashPassword($user, $form->get('plainPassword')->getData()));
             $em->persist($user);
             $em->flush();
         }
@@ -71,5 +46,6 @@ class AccountController extends AbstractController
             'controller_name' => 'Mon compte',
             'form' => $form->createView()
         ]);
+
     }
 }

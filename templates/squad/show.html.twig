@@ -14,16 +14,20 @@
 				</div>
 			{% endfor %}
 		</div>
+		<button class="contrast" data-target="modal-squad" onclick="toggleModal(event)">
+			Nouvelle Squad
+		</button>
 	</div>
 
+
 	<!-- Modal -->
-	<dialog id="modal-example">
+	<dialog id="modal-squad">
 		<article>
-			<a href="#close" aria-label="Close" class="close" data-target="modal-example" onclick="toggleModal(event)"></a>
+			<a href="#close" aria-label="Close" class="close" data-target="modal-squad" onclick="toggleModal(event)"></a>
 			<h3>Créer une nouvelle Squad</h3>
 			<p></p>
 			<footer>
-				<a href="#cancel" role="button" class="secondary" data-target="modal-example" onclick="toggleModal(event)">
+				<a href="#cancel" role="button" class="secondary" data-target="modal-squad" onclick="toggleModal(event)">
 					Annuler
 				</a>
 
