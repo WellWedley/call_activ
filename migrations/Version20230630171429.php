@@ -7,11 +7,11 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20230630171429_createUserTable extends AbstractMigration
+final class Version20230630171429 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Create User Table';
     }
 
     public function up(Schema $schema): void

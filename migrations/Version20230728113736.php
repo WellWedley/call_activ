@@ -7,11 +7,11 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20230728113736createActivityTable extends AbstractMigration
+final class Version20230728113736 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Create Activity Table';
     }
 
     public function up(Schema $schema): void

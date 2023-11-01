@@ -7,11 +7,11 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20230728112634_userInformation extends AbstractMigration
+final class Version20230728112634 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'User Information';
     }
 
     public function up(Schema $schema): void
