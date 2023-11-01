@@ -1,7 +1,5 @@
 {% extends "base.html.twig" %}
-{% block title %}
-	{{controller_name}}
-{% endblock %}
+
 {% block body %}
 	<div class="container">
 		<h1>Mes Squads</h1>
@@ -22,7 +20,6 @@
 		</button>
 	</div>
 
-
 	<!-- Modal -->
 	<dialog id="modal-squad">
 		<article>
@@ -30,11 +27,8 @@
 			<h3>Créer une nouvelle Squad</h3>
 			<p></p>
 			<footer>
-				<a href="#cancel" role="button" class="secondary" data-target="modal-squad" onclick="toggleModal(event)">
-					Annuler
-				</a>
-
+				<a href="#cancel" role="button" class="secondary" data-target="modal-squad" onclick="toggleModal(event)">Annuler</a>
 			</footer>
-		</p>
-	</article>
-</dialog>{% endblock %}
+		</article>
+	</dialog>
+{% endblock %}

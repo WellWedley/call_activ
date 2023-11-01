@@ -10,7 +10,6 @@
 			<li>
 				<a href="{{path('app_account_index')}}" role="button">Mes Squads</a>
 			</li>
-
 			<li>
 				<a href="{{path('app_account_edit')}}" role="button">Mon Compte</a>
 			</li>
@@ -20,8 +19,12 @@
 		</ul>
 	{% else %}
 		<ul>
-			<li><ahref="{{path('app_login')}}" role="button">Connexion</a></li>
-			<li><ahref="{{path('app_register')}}" role="button">Inscription</a></li>
+			<li>
+			<a href="{{path('app_login')}}" role="button">Connexion</a>
+			</li>
+			<li>
+			<a href="{{path('app_register')}}" role="button">Inscription</a>
+			</li>
 		</ul>
 	{% endif %}
 </nav>

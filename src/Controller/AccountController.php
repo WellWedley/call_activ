@@ -56,7 +56,7 @@ class AccountController extends AbstractController
         }
 
         return $this->render('account/edit.html.twig', [
-            'controller_name' => 'Mon compte',
+            'controller_name' => 'Modifier mon compte',
             'form' => $form->createView()
         ]);
 
