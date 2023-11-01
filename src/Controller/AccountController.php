@@ -18,6 +18,13 @@ use App\Controller\SquadController;
 #[IsGranted('ROLE_USER', statusCode: 403, exceptionCode: 10010)]
 class AccountController extends AbstractController
 {
+
+    /**
+     * @param SquadController $squadController
+     * @param SquadRepository $SquadRepository
+     * 
+     * @return Response
+     */
     #[Route(path: '/', name: '_index')]
     public function index(SquadController $squad, SquadRepository $squadRepository): Response
     {
@@ -26,6 +33,14 @@ class AccountController extends AbstractController
 
     }
 
+    /**
+     * @param EntityManagerInterface         $em
+     * @param Request                       $request
+     * @param UserPasswordHasherInterface   $userPasswordhasher
+     * @param #[CurrentUser]                $user
+     * 
+     * @return Response
+     */
     #[Route(path: '/edit', name: '_edit')]
     public function editAccount(EntityManagerInterface $em, Request $request, UserPasswordHasherInterface $userPasswordHasher, #[CurrentUser] $user): Response
     {

@@ -16,8 +16,15 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/squad', name: 'app_squad')]
 class SquadController extends AbstractController
 {
+    /**
+     * @param SquadRepository $squadRepository
+     * 
+     * @throws \Exception
+     * 
+     * @return Response
+     */
     #[Route('/', name: 'app_squad')]
-    public function showSquads(SquadRepository $SquadRepository)
+    public function showSquads(SquadRepository $SquadRepository): Response
     {
 
         $squad = $SquadRepository->findAll();
@@ -30,10 +37,16 @@ class SquadController extends AbstractController
             [
                 'controller_name' => 'Mes Squads',
                 'squad' => $squad
-            ]
-        );
+            ]);
     }
 
+    /**
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param #[CurrentUser] $user
+     * 
+     * @return Response
+     */
     #[IsGranted('ROLE_USER', statusCode: 403, exceptionCode: 10010)]
     #[Route('/squad/add', name: 'app_squad')]
     public function addSquad(Request $request, EntityManagerInterface $em, #[CurrentUser] $user): Response
@@ -57,10 +70,11 @@ class SquadController extends AbstractController
 
         $formView = $form->createView();
 
-        return $this->render('squad/add.html.twig', [
-            'controller_name' => 'AccountController',
-            "squad" => $squad,
-            'formView' => $formView
-        ]);
+        return $this->render('squad/add.html.twig',
+            [
+                'controller_name' => 'AccountController',
+                "squad" => $squad,
+                'formView' => $formView
+            ]);
     }
 }
