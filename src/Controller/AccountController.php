@@ -16,11 +16,9 @@ use App\Controller\SquadController;
 
 #[Route('/account', name: 'app_account')]
 #[IsGranted('ROLE_USER', statusCode: 403, exceptionCode: 10010)]
-
 class AccountController extends AbstractController
 {
     #[Route(path: '/', name: '_index')]
-
     public function index(SquadController $squad, SquadRepository $squadRepository): Response
     {
 
