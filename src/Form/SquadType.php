@@ -27,9 +27,6 @@ class SquadType extends AbstractType
                 'choice_label' => 'prenom',
 
             ])
-            ->add('Enregistrer', SubmitType::class)
-
-            // ->add('activities')
         ;
 
 

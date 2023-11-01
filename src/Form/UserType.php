@@ -11,24 +11,25 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType; 
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+
 class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('Nom', TextType::class, [
-                'label'=> 'Nom'
-            ]) 
-            ->add('prenom', TextType::class, 
-            [
-                'label'=>'Prénom'
-            ]) 
+                'label' => 'Nom'
+            ])
+            ->add('prenom', TextType::class,
+                [
+                    'label' => 'Prénom'
+                ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'label'=> "Mot de passe", 
+                'label' => "Mot de passe",
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
@@ -44,9 +45,8 @@ class UserType extends AbstractType
             ])
             ->add('email')
             ->add('PhoneNumber', TelType::class, [
-                'label'=>'Numéro de téléphone'
+                'label' => 'Numéro de téléphone'
             ])
-            ->add('Enregistrer', SubmitType::class)
         ;
     }
 

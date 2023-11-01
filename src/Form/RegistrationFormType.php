@@ -26,32 +26,32 @@ class RegistrationFormType extends AbstractType
                 ])
             ])
 
-            ->add('prenom', TextType::class, ['constraints' => new NotBlank([
-                'message' => 'Merci de renseigner le prénom.'
-            ])])
+            ->add('prenom', TextType::class, [
+                'constraints' => new NotBlank([
+                    'message' => 'Merci de renseigner le prénom.'
+                ])])
 
-            ->add('email', EmailType::class, ['constraints' => new NotBlank([
-                'message' => 'Merci de renseigner l\'email.'
-            ])])
+            ->add('email', EmailType::class, [
+                'constraints' => new NotBlank([
+                    'message' => 'Merci de renseigner l\'email.'
+                ])])
 
             ->add('phone_number', TelType::class)
 
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'Vous devez accepter les conditions d\'utilisateurs',
-                    ]),
+                'constraints' => [new IsTrue([
+                    'message' => 'Vous devez accepter les conditions d\'utilisateurs',
+                ]),
                 ],
             ])
 
             ->add('plainPassword', PasswordType::class, [
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Merci de renseigner le mot de passe',
-                    ]),
+                'constraints' => [new NotBlank([
+                    'message' => 'Merci de renseigner le mot de passe',
+                ]),
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',

@@ -4,29 +4,24 @@
 			<strong>Call'Activ'</strong>
 		</li>
 	</ul>
-	<ul>
 
-		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-
+	{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+		<ul>
 			<li>
 				<a href="{{path('app_account_index')}}" role="button">Mes Squads</a>
 			</li>
-		</li>
-		<li>
-			<a href="{{path('app_account_edit')}}" role="button">Mon Compte</a>
-		</li>
-		<li>
-			<a href="{{path('app_logout')}}" role="button">Déconnexion</a>
-		</li>
+
+			<li>
+				<a href="{{path('app_account_edit')}}" role="button">Mon Compte</a>
+			</li>
+			<li>
+				<a href="{{path('app_logout')}}" role="button">Déconnexion</a>
+			</li>
+		</ul>
 	{% else %}
-
-		<li>
-			<a href="{{path('app_login')}}" role="button">Connexion</a>
-		</li>
-		<li>
-			<a href="{{path('app_register')}}" role="button">Inscription</a>
-		</li>
-
+		<ul>
+			<li><ahref="{{path('app_login')}}" role="button">Connexion</a></li>
+			<li><ahref="{{path('app_register')}}" role="button">Inscription</a></li>
+		</ul>
 	{% endif %}
-
-</ul></nav>
+</nav>

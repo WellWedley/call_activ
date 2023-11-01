@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Squad;
+use App\Entity\User;
 use App\Form\SquadType;
 use App\Repository\SquadRepository;
 use Composer\DependencyResolver\Request;
@@ -23,33 +24,30 @@ class SquadController extends AbstractController
      * 
      * @return Response
      */
-    #[Route('/', name: 'app_squad')]
+    #[Route('/', name: '_show')]
     public function showSquads(SquadRepository $SquadRepository): Response
     {
 
         $squad = $SquadRepository->findAll();
 
-        if (!$squad) {
-            throw $this->createNotFoundException('Aucune squad à afficher pour le moment');
-        }
-
         return $this->render('squad/show.html.twig',
             [
                 'controller_name' => 'Mes Squads',
-                'squad' => $squad
-            ]);
+                'squad' => $squad ?: [],
+            ]
+        );
     }
 
     /**
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param #[CurrentUser] $user
+     * @param Request                   $request
+     * @param EntityManagerInterface    $em
+     * @param User                      $user
      * 
      * @return Response
      */
     #[IsGranted('ROLE_USER', statusCode: 403, exceptionCode: 10010)]
-    #[Route('/squad/add', name: 'app_squad')]
-    public function addSquad(Request $request, EntityManagerInterface $em, #[CurrentUser] $user): Response
+    #[Route('/squad/add', name: 'app_squad_add')]
+    public function addSquad(Request $request, EntityManagerInterface $em, #[CurrentUser] User $user): Response
     {
         $squad = new Squad();
 
@@ -68,13 +66,12 @@ class SquadController extends AbstractController
             $em->flush();
         }
 
-        $formView = $form->createView();
-
         return $this->render('squad/add.html.twig',
             [
-                'controller_name' => 'AccountController',
+                'controller_name' => 'Nouvelle Squad',
                 "squad" => $squad,
-                'formView' => $formView
-            ]);
+                'form' => $form->createView()
+            ]
+        );
     }
 }

@@ -42,16 +42,27 @@ class Activity
         $this->Squad = new ArrayCollection();
     }
 
+    /**
+     * @return int  
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     *@param string     $name
+     *
+     * @return string   
+     */
     public function setName(string $name): static
     {
         $this->name = $name;
@@ -59,11 +70,19 @@ class Activity
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getPlace(): ?string
     {
         return $this->place;
     }
 
+    /**
+     * @param string $place
+     * 
+     * @return string
+     */
     public function setPlace(string $place): static
     {
         $this->place = $place;
@@ -71,11 +90,19 @@ class Activity
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getCategory(): ?string
     {
         return $this->Category;
     }
 
+    /**
+     * @param string $Category
+     * 
+     * @return Category
+     */
     public function setCategory(string $Category): static
     {
         $this->Category = $Category;
@@ -83,11 +110,19 @@ class Activity
         return $this;
     }
 
+    /**
+     * @return int
+     */
     public function getPrice(): ?int
     {
         return $this->Price;
     }
 
+    /**
+     * @param int $Price
+     * 
+     * @return static
+     */
     public function setPrice(int $Price): static
     {
         $this->Price = $Price;
@@ -95,11 +130,17 @@ class Activity
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface
+     */
     public function getDate(): ?\DateTimeInterface
     {
         return $this->Date;
     }
 
+    /**
+     * @param \DateTimeInterface $Date
+     */
     public function setDate(\DateTimeInterface $Date): static
     {
         $this->Date = $Date;
@@ -115,6 +156,9 @@ class Activity
         return $this->Squad;
     }
 
+    /**
+     * @param Squad $squad
+     */
     public function addSquad(Squad $squad): static
     {
         if (!$this->Squad->contains($squad)) {
@@ -124,6 +168,9 @@ class Activity
         return $this;
     }
 
+    /**
+     * @param Squad $squad
+     */
     public function removeSquad(Squad $squad): static
     {
         $this->Squad->removeElement($squad);
