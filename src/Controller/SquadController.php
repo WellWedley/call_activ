@@ -33,7 +33,7 @@ class SquadController extends AbstractController
         return $this->render('squad/show.html.twig',
             [
                 'controller_name' => 'Mes Squads',
-                'squad' => $squad ?: [],
+                'squads' => $squad ?: [],
             ]
         );
     }
@@ -57,7 +57,7 @@ class SquadController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($form);
+
             $squad = $form->getData();
             $squad->setName($squad->getName());
             $squad->addMember($user);

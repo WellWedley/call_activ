@@ -4,13 +4,13 @@
 	<div class="container">
 		<h1>Mes Squads</h1>
 		<div class="row">
-			{% for item in squad %}
+			{% for squad in squads %}
 				<div class="col">
 					<div class="row">
-						{{item.name}}
+						{{squad.name}}
 					</div>
 					<div class="row">
-						{{item.id}}
+						{{squad.id}}
 					</div>
 				</div>
 			{% endfor %}
