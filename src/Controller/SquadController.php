@@ -6,8 +6,8 @@ use App\Entity\Squad;
 use App\Entity\User;
 use App\Form\SquadType;
 use App\Repository\SquadRepository;
-use Composer\DependencyResolver\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -46,7 +46,7 @@ class SquadController extends AbstractController
      * @return Response
      */
     #[IsGranted('ROLE_USER', statusCode: 403, exceptionCode: 10010)]
-    #[Route('/squad/add', name: 'app_squad_add')]
+    #[Route('/add', name: '_add')]
     public function addSquad(Request $request, EntityManagerInterface $em, #[CurrentUser] User $user): Response
     {
         $squad = new Squad();
@@ -57,7 +57,7 @@ class SquadController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            dd($form);
             $squad = $form->getData();
             $squad->setName($squad->getName());
             $squad->addMember($user);

@@ -47,6 +47,8 @@ class UserType extends AbstractType
             ->add('PhoneNumber', TelType::class, [
                 'label' => 'Numéro de téléphone'
             ])
+            ->add('Enregistrer', SubmitType::class, []);
+
         ;
     }
 

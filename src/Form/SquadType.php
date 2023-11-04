@@ -7,8 +7,13 @@ use App\Entity\User;
 use App\Entity\Squad;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SquadType extends AbstractType
@@ -17,15 +22,20 @@ class SquadType extends AbstractType
     {
         $builder
 
-            ->add('name')
-            ->add('members', EntityType::class, [
-                'attr' => ['class' => 'form-control'],
-                'placeholder' => '-- Choisir les membres à ajouter --',
-                'label' => 'Membres',
-                'multiple' => true,
-                'class' => User::class,
-                'choice_label' => 'prenom',
+            ->add('name', TextType::class,
+                ['label' => 'nom']
+            )
 
+            ->add('members', EntityType::class, [
+                'class' => User::class,
+                'multiple' => true,
+                'label' => 'Membres à ajouter',
+                'placeholder' => 'Choisissez une option',
+                'choice_label' => 'prenom',
+            ])
+
+            ->add('Enregistrer', SubmitType::class, [
+                'label' => 'Créer la Squad '
             ])
         ;
 

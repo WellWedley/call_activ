@@ -4,31 +4,18 @@
 	<div class="container">
 		<h1>Mes Squads</h1>
 		<div class="row">
-			{% for squad in squad %}
+			{% for item in squad %}
 				<div class="col">
 					<div class="row">
-						{{squad.name}}
+						{{item.name}}
 					</div>
 					<div class="row">
-						{{squad.id}}
+						{{item.id}}
 					</div>
 				</div>
 			{% endfor %}
 		</div>
-		<button class="contrast" data-target="modal-squad" onclick="toggleModal(event)">
-			Nouvelle Squad
-		</button>
+		<a href="{{path('app_squad_add')}}">Nouvelle Squad</a>
 	</div>
 
-	<!-- Modal -->
-	<dialog id="modal-squad">
-		<article>
-			<a href="#close" aria-label="Close" class="close" data-target="modal-squad" onclick="toggleModal(event)"></a>
-			<h3>Créer une nouvelle Squad</h3>
-			<p></p>
-			<footer>
-				<a href="#cancel" role="button" class="secondary" data-target="modal-squad" onclick="toggleModal(event)">Annuler</a>
-			</footer>
-		</article>
-	</dialog>
 {% endblock %}

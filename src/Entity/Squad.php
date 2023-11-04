@@ -6,6 +6,7 @@ use App\Repository\SquadRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SquadRepository::class)]
 class Squad
@@ -16,6 +17,15 @@ class Squad
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(
+        message: 'Le champ {{ label }} est obligatoire. '
+    )]
+    #[Assert\Length(
+        min: 3,
+        minMessage: 'Le {{ label }} doit contenir au moins {{min}} caractères.',
+        max: 25,
+        maxMessage: 'Le {{ label }} doit contenir au maximum {{ max }} caractères.'
+    )]
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'squads')]

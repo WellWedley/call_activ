@@ -71,6 +71,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Positive(
+        message: 'Le numéro de téléphone est invalde.'
+    )]
     #[Assert\NotBlank(
         message: 'Le champ {{ label }} est obligatoire. '
     )]
