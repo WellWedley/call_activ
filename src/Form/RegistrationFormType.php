@@ -20,44 +20,34 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom', TextType::class, [
-                'constraints' => new NotBlank([
-                    'message' => 'Merci de renseigner le nom.'
+            ->add(
+                'nom', TextType::class, [
+                    'label' => 'Nom'
                 ])
-            ])
 
             ->add('prenom', TextType::class, [
-                'constraints' => new NotBlank([
-                    'message' => 'Merci de renseigner le prénom.'
-                ])])
+                'label' => 'Prénom'
+            ])
 
-            ->add('email', EmailType::class, [
-                'constraints' => new NotBlank([
-                    'message' => 'Merci de renseigner l\'email.'
-                ])])
+            ->add('email', EmailType::class)
 
-            ->add('phone_number', TelType::class)
+            ->add('phone_number', TelType::class, [
+                'label' => 'Numéro de téléphone'
+            ])
 
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
+                'label' => 'Conditions générales ',
                 'constraints' => [new IsTrue([
-                    'message' => 'Vous devez accepter les conditions d\'utilisateurs',
+                    'message' => 'Vous devez accepter les conditions d\'utilisation',
                 ]),
                 ],
             ])
 
             ->add('plainPassword', PasswordType::class, [
                 'mapped' => false,
+                'label' => 'Mot de passe',
                 'attr' => ['autocomplete' => 'new-password'],
-                'constraints' => [new NotBlank([
-                    'message' => 'Merci de renseigner le mot de passe',
-                ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
-                        'max' => 4096,
-                    ]),
-                ],
             ])
         ;
     }

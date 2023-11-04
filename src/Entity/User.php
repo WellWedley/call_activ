@@ -9,9 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Ce compte existe déjà.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -20,27 +21,63 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Email(
+        message: 'L\'adresse \'{{value}} n\'est pas valide.\'',
+        mode: 'html5'
+    )]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\Length(
+        min: 8,
+        max: 4096,
+        minMessage: 'Votre mot de passe doit contenir au moins {{ min }} caractères.',
+        maxMessage: 'Votre mot de passe doit contenir au maximum {{ max }} caractères.',
+    )]
     private ?string $password = null;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[Assert\NotBlank(
+        message: 'Le champ {{ label }} est obligatoire. '
+    )]
+    #[Assert\Length(
+        min: 3,
+        minMessage: 'Le {{ label }} doit contenir au moins {{ min }} caractères.',
+        max: 20,
+        maxMessage: 'Le {{ label }} doit contenir au maximum {{ max }} caractères.'
+    )]
     #[ORM\Column(length: 255)]
     private ?string $Nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(
+        message: 'Le champ {{ label }} est obligatoire.'
+    )]
+    #[Assert\Length(
+        min: 3,
+        minMessage: 'Le {{ label }} doit contenir au moins {{ min }} caractères.',
+        max: 20,
+        maxMessage: 'Le {{ label }} doit contenir au maximum {{ max }} caractères.'
+    )]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(
+        message: 'Le champ {{ label }} est obligatoire. '
+    )]
+    #[Assert\Length(
+        exactly: 10,
+        exactMessage: 'Le numéro doit contenir {{ limit }} chiffres. ( Actuel : {{ value_length }} chiffres ). ',
+    )]
     private ?string $PhoneNumber = null;
 
     #[ORM\ManyToMany(targetEntity: Squad::class, mappedBy: 'members')]
