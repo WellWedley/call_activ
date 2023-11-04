@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Repository\UserRepository;
+use App\Repository\SquadRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,15 +23,19 @@ class LoginController extends AbstractController
     /**
      * @param AuthenticationUtils $authenticationUtils
      * @param User $user
-     * 
+     * @param SquadController $squad
+     * @param SquadRepository $squadRepository
      * @return Response
      */
     #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils, User $user): Response
+    public function login(AuthenticationUtils $authenticationUtils, User $user, SquadController $squad, SquadRepository $squadRepository): Response
     {
+
         if ($user->getId()) {
-            return $this->redirectToRoute('app_account_index');
+
+            return $squad->showSquads($squadRepository);
         }
+
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 

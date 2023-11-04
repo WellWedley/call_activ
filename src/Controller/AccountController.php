@@ -34,7 +34,7 @@ class AccountController extends AbstractController
     }
 
     /**
-     * @param EntityManagerInterface         $em
+     * @param EntityManagerInterface        $em
      * @param Request                       $request
      * @param UserPasswordHasherInterface   $userPasswordhasher
      * @param #[CurrentUser]                $user
