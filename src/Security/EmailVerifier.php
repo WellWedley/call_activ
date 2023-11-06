@@ -3,7 +3,6 @@
 namespace App\Security;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
@@ -32,7 +31,7 @@ class EmailVerifier
         $_ENV['MAILER_DSN'] ;  
         $MJ_APIKEY_PUBLIC=$_ENV['MJ_APIKEY_PUBLIC'] ;  
         $MJ_APIKEY_PRIVATE = $_ENV['MJ_APIKEY_PRIVATE'] ;  
-        $SENDER_EMAIL = "contact@webboxfactory.com"; 
+        $SENDER_EMAIL = $_ENV['WEBSITE_EMAIL']; 
         $RECIPIENT_EMAIL = $user->getEmail() ;
         
         //$context = $emailBody->getContext();
@@ -49,16 +48,17 @@ class EmailVerifier
                     'To' => [
                         [
                             'Email' => "$RECIPIENT_EMAIL",
-                            'Name' => ""
+                            'Name' => $user->getPrenom(),
                         ]
                     ],
                     'Subject' => "Merci de confirmer votre Email",
                     'TextPart' => "Bienvenue sur Call'Activ ",
-                    'HTMLPart' => "Merci de cliquer sur le lien ci-desous afin de vérifier votre compte.
-                    <a href=/".$signatureComponents->getSignedUrl().">Confirmer mon compte</a>"
+                    'HTMLPart' => "Merci de cliquer sur le lien ci-desous afin de vérifier votre compte. <br>
+                    <a href=".$signatureComponents->getSignedUrl().">Confirmer mon compte</a>"
                 ]
             ]
         ];
+        
         
         $mj = new \Mailjet\Client($MJ_APIKEY_PUBLIC, $MJ_APIKEY_PRIVATE,true,['version' => 'v3.1']);
         $response = $mj->post(Resources::$Email, ['body' => $body]);
@@ -74,7 +74,6 @@ class EmailVerifier
         $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), $user->getId(), $user->getEmail());
 
         $user->setIsVerified(true);
-
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }

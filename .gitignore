@@ -19,4 +19,9 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-/.env
+
+### MacOS
+/.DS_STORE
+
+### code editor
+/.vscode

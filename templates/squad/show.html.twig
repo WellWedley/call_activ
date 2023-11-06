@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<div class="container">
+		<h1>Mes Squads</h1>
+		<div class="row">
+			{% for squad in squads %}
+				<div class="col">
+					<div class="row">
+						{{squad.name}}
+					</div>
+					<div class="row">
+						{{squad.id}}
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+		<a href="{{path('app_squad_add')}}">Nouvelle Squad</a>
+	</div>
+
+{% endblock %}

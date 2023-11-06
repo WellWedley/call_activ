@@ -1,11 +1,30 @@
 <nav class="container">
-  <ul>
-    <li><strong>Call'Activ'</strong></li>
-  </ul>
-  <ul>
-    {# <li><a href="#">Link</a></li> #}
+	<ul>
+		<li>
+			<strong>Call'Activ'</strong>
+		</li>
+	</ul>
 
-    <li><a href="{{path('app_login')}}" role="button">Connexion</a></li>
-    <li><a href="{{path('app_register')}}" role="button">Inscription</a></li>
-  </ul>
+	{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+		<ul>
+			<li>
+				<a href="{{path('app_account_index')}}" role="button">Mes Squads</a>
+			</li>
+			<li>
+				<a href="{{path('app_account_edit')}}" role="button">Mon Compte</a>
+			</li>
+			<li>
+				<a href="{{path('app_logout')}}" role="button">Déconnexion</a>
+			</li>
+		</ul>
+	{% else %}
+		<ul>
+			<li>
+				<a href="{{path('app_login')}}" role="button">Connexion</a>
+			</li>
+			<li>
+				<a href="{{path('app_register')}}" role="button">Inscription</a>
+			</li>
+		</ul>
+	{% endif %}
 </nav>
