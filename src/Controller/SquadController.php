@@ -74,4 +74,33 @@ class SquadController extends AbstractController
             ]
         );
     }
+
+    /**
+     * @param int               $id
+     * @param SquadRepository   $squadRepository
+     * @param Request           $request
+     * @return Response
+     */
+    #[IsGranted('ROLE_USER', statusCode: 403, exceptionCode: 10010)]
+    #[Route('/edit/{id}', name: '_edit')]
+    public function editSquad(int $id, SquadRepository $squadRepository,
+        Request $request, EntityManagerInterface $em): Response
+    {
+        $squad = $squadRepository->find($id);
+        $form = $this->createForm(SquadType::class, $squad);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+        }
+
+        return $this->render('squad/edit.html.twig', [
+            'controller_name' => "Modifier la squad " . $squad->getName(),
+            'squad' => $squad,
+            "form" => $form->createView()
+        ]
+        );
+    }
+
 }
