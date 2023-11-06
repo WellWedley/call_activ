@@ -3,7 +3,12 @@
 {% block body %}
 
 	<h1 class="mt-5 text-center">Modifier mon compte</h1>
-	<div class="container-sm mt-5 ">
-		{{ form(form, {'method': 'POST'}) }}
-		</div>
-	{% endblock %}
+	<div
+		class="container-sm mt-5 ">
+		{# {{ form(form, {'method': 'POST'}) }} #}
+		{{form_start(form)}}
+		{{form_rest(form)}}
+		<button type="submit">Enregistrer</button>
+		{{form_end(form)}}
+	</div>
+{% endblock %}

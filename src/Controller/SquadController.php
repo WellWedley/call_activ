@@ -28,12 +28,12 @@ class SquadController extends AbstractController
     public function showSquads(SquadRepository $SquadRepository): Response
     {
 
-        $squad = $SquadRepository->findAll();
+        $squads = $SquadRepository->findAll();
 
         return $this->render('squad/show.html.twig',
             [
                 'controller_name' => 'Mes Squads',
-                'squads' => $squad ?: [],
+                'squads' => $squads ?: [],
             ]
         );
     }
