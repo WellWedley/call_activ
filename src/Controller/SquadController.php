@@ -83,10 +83,17 @@ class SquadController extends AbstractController
      */
     #[IsGranted('ROLE_USER', statusCode: 403, exceptionCode: 10010)]
     #[Route('/edit/{id}', name: '_edit')]
-    public function editSquad(int $id, SquadRepository $squadRepository,
+    public function editSquad(int $id,
         Request $request, EntityManagerInterface $em): Response
     {
-        $squad = $squadRepository->find($id);
+        $squad = $em->getRepository(Squad::class)->find($id);
+
+        if (!$squad) {
+            throw $this->createNotFoundException(
+                'La squad' . $id . ' n\'existe pas ! '
+            );
+        }
+
         $form = $this->createForm(SquadType::class, $squad);
 
         $form->handleRequest($request);
