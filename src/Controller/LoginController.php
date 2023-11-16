@@ -7,6 +7,7 @@ use App\Repository\SquadRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends AbstractController
@@ -27,21 +28,26 @@ class LoginController extends AbstractController
      * @param SquadRepository $squadRepository
      * @return Response
      */
-    #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils, User $user, SquadController $squad, SquadRepository $squadRepository): Response
+    #[Route(path: '/', name: 'app_login')]
+    public function login(AuthenticationUtils $authenticationUtils, #[CurrentUser] $user, SquadController $squad, SquadRepository $squadRepository): Response
     {
 
-        if ($user->getId()) {
+
+        if ($this->denyAccessUnlessGranted('IS_AUTHENTICATED')) {
 
             return $squad->showSquads($squadRepository);
+
+
+        } else {
+
+
+            $error = $authenticationUtils->getLastAuthenticationError();
+            $lastUsername = $authenticationUtils->getLastUsername();
+
+            return $this->render('security/login.html.twig', [
+                'last_username' => $lastUsername,
+                'error' => $error]);
         }
-
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('security/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error' => $error]);
     }
 
 }

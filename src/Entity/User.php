@@ -72,7 +72,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     #[Assert\Positive(
-        message: 'Le numéro de téléphone est invalde.'
+        message: 'Le numéro {{ label }} de téléphone est invalide.'
     )]
     #[Assert\NotBlank(
         message: 'Le champ {{ label }} est obligatoire. '
@@ -86,9 +86,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Squad::class, mappedBy: 'members')]
     private Collection $squads;
 
+    #[ORM\ManyToMany(targetEntity: Friends::class, mappedBy: 'User')]
+    private Collection $friends;
+
     public function __construct()
     {
         $this->squads = new ArrayCollection();
+        $this->friends = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -231,6 +235,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->squads->removeElement($squad)) {
             $squad->removeMember($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Friends>
+     */
+    public function getFriends(): Collection
+    {
+        return $this->friends;
+    }
+
+    public function addFriend(Friends $friend): static
+    {
+        if (!$this->friends->contains($friend)) {
+            $this->friends->add($friend);
+            $friend->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFriend(Friends $friend): static
+    {
+        if ($this->friends->removeElement($friend)) {
+            $friend->removeUser($this);
         }
 
         return $this;

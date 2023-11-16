@@ -27,9 +27,6 @@ class Activity
     #[ORM\Column(length: 255)]
     private ?string $place = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $Category = null;
-
     #[ORM\Column]
     private ?int $Price = null;
 

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Activity;
 use App\Entity\Squad;
 use App\Entity\User;
 use App\Form\SquadType;
@@ -76,15 +77,14 @@ class SquadController extends AbstractController
     }
 
     /**
-     * @param int               $id
-     * @param SquadRepository   $squadRepository
-     * @param Request           $request
+     * @param int                       $id
+     * @param Request                   $request 
+     * @param EntityManagerInterface    $em
      * @return Response
      */
     #[IsGranted('ROLE_USER', statusCode: 403, exceptionCode: 10010)]
     #[Route('/edit/{id}', name: '_edit')]
-    public function editSquad(int $id,
-        Request $request, EntityManagerInterface $em): Response
+    public function editSquad(int $id, Request $request, EntityManagerInterface $em): Response
     {
         $squad = $em->getRepository(Squad::class)->find($id);
 
