@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\FriendsRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -17,29 +18,39 @@ class Friends
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $friendship_start = null;
+    private ?\DateTimeInterface $friendshipStart = null;
 
     #[ORM\ManyToMany(targetEntity: user::class, inversedBy: 'friends')]
-    private Collection $User;
+    private Collection $user;
 
     public function __construct()
     {
-        $this->User = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFriendshipStart(): ?\DateTimeInterface
+    /**
+     * @return DateTimeInterface|null
+     */
+    public function getFriendshipStart(): ?DateTimeInterface
     {
-        return $this->friendship_start;
+        return $this->friendshipStart;
     }
 
-    public function setFriendshipStart(\DateTimeInterface $friendship_start): static
+    /**
+     * @param DateTimeInterface $friendshipStart
+     * @return $this
+     */
+    public function setFriendshipStart(DateTimeInterface $friendshipStart): static
     {
-        $this->friendship_start = $friendship_start;
+        $this->friendshipStart = $friendshipStart;
 
         return $this;
     }
@@ -49,21 +60,29 @@ class Friends
      */
     public function getUser(): Collection
     {
-        return $this->User;
+        return $this->user;
     }
 
+    /**
+     * @param user $user
+     * @return $this
+     */
     public function addUser(user $user): static
     {
-        if (!$this->User->contains($user)) {
-            $this->User->add($user);
+        if (!$this->user->contains($user)) {
+            $this->user->add($user);
         }
 
         return $this;
     }
 
+    /**
+     * @param user $user
+     * @return $this
+     */
     public function removeUser(user $user): static
     {
-        $this->User->removeElement($user);
+        $this->user->removeElement($user);
 
         return $this;
     }

@@ -16,11 +16,20 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SquadRepository extends ServiceEntityRepository
 {
+    /**
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Squad::class);
     }
 
+    /**
+     * @param Squad $entity
+     * @param bool $flush
+     *
+     * @return void
+     */
     public function save(Squad $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -30,6 +39,12 @@ class SquadRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @param Squad $entity
+     * @param bool $flush
+     *
+     * @return void
+     */
     public function remove(Squad $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
@@ -38,6 +53,4 @@ class SquadRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
-
 }
