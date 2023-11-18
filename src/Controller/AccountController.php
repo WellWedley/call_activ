@@ -20,16 +20,22 @@ class AccountController extends AbstractController
 {
 
     /**
-     * @param SquadController $squadController
      * @param SquadRepository $SquadRepository
-     * 
+     * @param Currentuser     $currentUser
      * @return Response
      */
     #[Route(path: '/', name: '_index')]
-    public function index(SquadController $squad, SquadRepository $squadRepository): Response
+    public function index(SquadController $squad, SquadRepository $squadRepository, #[CurrentUser] $currentUser): Response
     {
 
-        return $squad->showSquads($squadRepository);
+        $squads = $squadRepository->findBy(['user' => $currentUser], ['name' => 'DESC']);
+
+        return $this->render('squad/show.html.twig',
+            [
+                'controller_name' => 'Mes Squads',
+                'squads' => $squads ?: [],
+            ]
+        );
 
     }
 

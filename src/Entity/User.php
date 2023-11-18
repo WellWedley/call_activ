@@ -89,10 +89,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Friends::class, mappedBy: 'User')]
     private Collection $friends;
 
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Squad::class)]
+    private Collection $included_in_squads;
+
     public function __construct()
     {
         $this->squads = new ArrayCollection();
         $this->friends = new ArrayCollection();
+        $this->included_in_squads = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -262,6 +266,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->friends->removeElement($friend)) {
             $friend->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Squad>
+     */
+    public function getIncludedInSquads(): Collection
+    {
+        return $this->included_in_squads;
+    }
+
+    public function addIncludedInSquad(Squad $includedInSquad): static
+    {
+        if (!$this->included_in_squads->contains($includedInSquad)) {
+            $this->included_in_squads->add($includedInSquad);
+            $includedInSquad->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIncludedInSquad(Squad $includedInSquad): static
+    {
+        if ($this->included_in_squads->removeElement($includedInSquad)) {
+            // set the owning side to null (unless already changed)
+            if ($includedInSquad->getOwner() === $this) {
+                $includedInSquad->setOwner(null);
+            }
         }
 
         return $this;

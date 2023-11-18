@@ -28,26 +28,26 @@ class LoginController extends AbstractController
      * @param SquadRepository $squadRepository
      * @return Response
      */
-    #[Route(path: '/', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils, #[CurrentUser] $user, SquadController $squad, SquadRepository $squadRepository): Response
+
+    #[Route(path: '/login', name: 'app_login')]
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
-
-
-        if ($this->denyAccessUnlessGranted('IS_AUTHENTICATED')) {
-
-            return $squad->showSquads($squadRepository);
-
-
-        } else {
-
-
-            $error = $authenticationUtils->getLastAuthenticationError();
-            $lastUsername = $authenticationUtils->getLastUsername();
-
-            return $this->render('security/login.html.twig', [
-                'last_username' => $lastUsername,
-                'error' => $error]);
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_account_index');
         }
+
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        if ($error) {
+            $error = 'Identifiants invalides - Veuillez réessayer';
+        }
+
+        return $this->render('security/login.html.twig',
+            ['last_username' => $lastUsername,
+                'error' => $error
+            ]
+        );
     }
 
 }

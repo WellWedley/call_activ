@@ -19,17 +19,15 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class SquadController extends AbstractController
 {
     /**
-     * @param SquadRepository $squadRepository
-     * 
-     * @throws \Exception
-     * 
-     * @return Response
+     * @param   SquadRepository $squadRepository
+     * @param   CurrentUser     $currentUser
+     * @return  Response
      */
     #[Route('/', name: '_show')]
-    public function showSquads(SquadRepository $SquadRepository): Response
+    public function showSquads(SquadRepository $squadRepository, #[CurrentUser] $currentUser): Response
     {
 
-        $squads = $SquadRepository->findAll();
+        $squads = $squadRepository->findBy(['members' => $currentUser], ['name' => 'DESC']);
 
         return $this->render('squad/show.html.twig',
             [
@@ -40,11 +38,10 @@ class SquadController extends AbstractController
     }
 
     /**
-     * @param Request                   $request
-     * @param EntityManagerInterface    $em
-     * @param User                      $user
-     * 
-     * @return Response
+     * @param   Request                   $request
+     * @param   EntityManagerInterface    $em
+     * @param   User                      $user
+     * @return  Response
      */
     #[IsGranted('ROLE_USER', statusCode: 403, exceptionCode: 10010)]
     #[Route('/add', name: '_add')]
