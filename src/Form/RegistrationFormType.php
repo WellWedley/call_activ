@@ -15,6 +15,12 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 
 class RegistrationFormType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     *
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -36,9 +42,10 @@ class RegistrationFormType extends AbstractType
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'label' => 'Conditions générales ',
-                'constraints' => [new IsTrue([
+                'constraints' => [
+                    new IsTrue([
                     'message' => 'Vous devez accepter les conditions d\'utilisation',
-                ]),
+                    ]),
                 ],
             ])
 
@@ -50,6 +57,11 @@ class RegistrationFormType extends AbstractType
         ;
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     * 
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

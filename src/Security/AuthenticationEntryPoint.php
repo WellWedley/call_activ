@@ -9,15 +9,25 @@ use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface
 
 class AuthenticationEntryPoint implements AuthenticationEntryPointInterface
 {
+    /**
+     * @param UrlGeneratorInterface $urlGenerator
+     */
     public function __construct(
-        private UrlGeneratorInterface $urlGenerator,
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
+    /**
+     * @param Request $request
+     * @param AuthenticationException|null $authException
+     *
+     * @return RedirectResponse
+     */
     public function start(Request $request, AuthenticationException $authException = null): RedirectResponse
     {
-        // add a custom flash message and redirect to the login page
-        $request->getSession()->getFlashBag()->add('note', 'Vous devez être connecté pour accéder à cette page.');
+        $request->getSession()->getFlashBag()->add(
+            'note', 'Vous devez être connecté pour accéder à cette page.'
+        );
 
         return new RedirectResponse($this->urlGenerator->generate('app_login'));
     }

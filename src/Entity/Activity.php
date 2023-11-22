@@ -3,12 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\ActivityRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
 
 #[ORM\Entity(repositoryClass: ActivityRepository::class)]
 class Activity
@@ -18,9 +18,7 @@ class Activity
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Assert\NotBlank(
-        message: "Le champ nom est obligatoire"
-    )]
+    #[Assert\NotBlank(message: "Le champ nom est obligatoire")]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
@@ -28,24 +26,24 @@ class Activity
     private ?string $place = null;
 
     #[ORM\Column]
-    private ?int $Price = null;
+    private ?int $price = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $Date = null;
+    private ?DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'activities')]
     private ?Category $category = null;
 
     #[ORM\ManyToMany(targetEntity: Squad::class, inversedBy: 'activities')]
-    private Collection $Squad;
+    private Collection $squad;
 
     public function __construct()
     {
-        $this->Squad = new ArrayCollection();
+        $this->squad = new ArrayCollection();
     }
 
     /**
-     * @return int  
+     * @return int|null
      */
     public function getId(): ?int
     {
@@ -53,7 +51,7 @@ class Activity
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getName(): ?string
     {
@@ -61,9 +59,9 @@ class Activity
     }
 
     /**
-     *@param string     $name
+     * @param string $name
      *
-     * @return string   
+     * @return $this
      */
     public function setName(string $name): static
     {
@@ -73,7 +71,7 @@ class Activity
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getPlace(): ?string
     {
@@ -82,8 +80,8 @@ class Activity
 
     /**
      * @param string $place
-     * 
-     * @return string
+     *
+     * @return $this
      */
     public function setPlace(string $place): static
     {
@@ -93,59 +91,60 @@ class Activity
     }
 
     /**
-     * @return string
+     * @return Category
      */
-    public function getCategory(): ?string
+    public function getCategory(): Category
     {
-        return $this->Category;
+        return $this->category;
     }
 
     /**
-     * @param string $Category
-     * 
-     * @return Category
+     * @param Category $category
+     *
+     * @return $this
      */
-    public function setCategory(string $Category): static
+    public function setCategory(Category $category): static
     {
-        $this->Category = $Category;
+        $this->category = $category;
 
         return $this;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getPrice(): ?int
     {
-        return $this->Price;
+        return $this->price;
     }
 
     /**
-     * @param int $Price
+     * @param int $price
      * 
      * @return static
      */
-    public function setPrice(int $Price): static
+    public function setPrice(int $price): static
     {
-        $this->Price = $Price;
+        $this->price = $price;
 
         return $this;
     }
 
     /**
-     * @return \DateTimeInterface
+     * @return DateTimeInterface|null
      */
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?DateTimeInterface
     {
-        return $this->Date;
+        return $this->date;
     }
 
     /**
-     * @param \DateTimeInterface $Date
+     * @param DateTimeInterface $date
+     * @return $this
      */
-    public function setDate(\DateTimeInterface $Date): static
+    public function setDate(DateTimeInterface $date): static
     {
-        $this->Date = $Date;
+        $this->date = $date;
 
         return $this;
     }
@@ -160,11 +159,12 @@ class Activity
 
     /**
      * @param Squad $squad
+     * @return $this
      */
     public function addSquad(Squad $squad): static
     {
-        if (!$this->Squad->contains($squad)) {
-            $this->Squad->add($squad);
+        if (!$this->squad->contains($squad)) {
+            $this->squad->add($squad);
         }
 
         return $this;
@@ -172,6 +172,8 @@ class Activity
 
     /**
      * @param Squad $squad
+     *
+     * @return $this
      */
     public function removeSquad(Squad $squad): static
     {

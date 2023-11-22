@@ -4,7 +4,6 @@ namespace App\Security;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Mailer\MailerInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 use App\Entity\User;
@@ -12,13 +11,22 @@ use Mailjet\Resources;
 
 class EmailVerifier
 {
+    /**
+     * @param VerifyEmailHelperInterface $verifyEmailHelper
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(
-        private VerifyEmailHelperInterface $verifyEmailHelper,
-        private MailerInterface $mailer,
-        private EntityManagerInterface $entityManager
+        private readonly VerifyEmailHelperInterface $verifyEmailHelper,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
+    /**
+     * @param string $verifyEmailRouteName
+     * @param User $user
+     *
+     * @return void
+     */
     public function sendEmailConfirmation(string $verifyEmailRouteName, User $user): void
     {
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
@@ -62,7 +70,13 @@ class EmailVerifier
 
     }
 
+
     /**
+     * @param Request $request
+     * @param User $user
+     *
+     * @return void
+     *
      * @throws VerifyEmailExceptionInterface
      */
     public function handleEmailConfirmation(Request $request, User $user): void

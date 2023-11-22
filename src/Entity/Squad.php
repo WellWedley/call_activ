@@ -17,13 +17,11 @@ class Squad
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(
-        message: 'Le champ {{ label }} est obligatoire. '
-    )]
+    #[Assert\NotBlank(message: 'Le champ {{ label }} est obligatoire. ')]
     #[Assert\Length(
         min: 3,
-        minMessage: 'Le {{ label }} doit contenir au moins {{min}} caractères.',
         max: 25,
+        minMessage: 'Le {{ label }} doit contenir au moins {{min}} caractères.',
         maxMessage: 'Le {{ label }} doit contenir au maximum {{ max }} caractères.'
     )]
     private ?string $name = null;
@@ -44,16 +42,26 @@ class Squad
         $this->activities = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setName(string $name): static
     {
         $this->name = $name;
@@ -69,6 +77,10 @@ class Squad
         return $this->members;
     }
 
+    /**
+     * @param User $member
+     * @return $this
+     */
     public function addMember(User $member): static
     {
         if (!$this->members->contains($member)) {
@@ -78,6 +90,10 @@ class Squad
         return $this;
     }
 
+    /**
+     * @param User $member
+     * @return $this
+     */
     public function removeMember(User $member): static
     {
         $this->members->removeElement($member);
@@ -93,6 +109,10 @@ class Squad
         return $this->activities;
     }
 
+    /**
+     * @param Activity $activity
+     * @return $this
+     */
     public function addActivity(Activity $activity): static
     {
         if (!$this->activities->contains($activity)) {
@@ -103,6 +123,10 @@ class Squad
         return $this;
     }
 
+    /**
+     * @param Activity $activity
+     * @return $this
+     */
     public function removeActivity(Activity $activity): static
     {
         if ($this->activities->removeElement($activity)) {

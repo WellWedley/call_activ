@@ -32,16 +32,26 @@ class Category
         $this->activities = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setName(string $name): static
     {
         $this->name = $name;
@@ -49,11 +59,18 @@ class Category
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * @param string $description
+     * @return $this
+     */
     public function setDescription(string $description): static
     {
         $this->description = $description;
@@ -61,11 +78,18 @@ class Category
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPict(): ?string
     {
         return $this->pict;
     }
 
+    /**
+     * @param string|null $pict
+     * @return $this
+     */
     public function setPict(?string $pict): static
     {
         $this->pict = $pict;
@@ -81,6 +105,10 @@ class Category
         return $this->activities;
     }
 
+    /**
+     * @param Activity $activity
+     * @return $this
+     */
     public function addActivity(Activity $activity): static
     {
         if (!$this->activities->contains($activity)) {
@@ -91,13 +119,15 @@ class Category
         return $this;
     }
 
+    /**
+     * @param Activity $activity
+     * @return $this
+     */
     public function removeActivity(Activity $activity): static
     {
-        if ($this->activities->removeElement($activity)) {
-            // set the owning side to null (unless already changed)
-            if ($activity->getCategory() === $this) {
-                $activity->setCategory(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->activities->removeElement($activity) && $activity->getCategory() === $this) {
+            $activity->setCategory(null);
         }
 
         return $this;

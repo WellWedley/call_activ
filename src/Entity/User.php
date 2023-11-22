@@ -51,8 +51,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     #[Assert\Length(
         min: 3,
-        minMessage: 'Le {{ label }} doit contenir au moins {{ min }} caractères.',
         max: 20,
+        minMessage: 'Le {{ label }} doit contenir au moins {{ min }} caractères.',
         maxMessage: 'Le {{ label }} doit contenir au maximum {{ max }} caractères.'
     )]
     #[ORM\Column(length: 255)]
@@ -64,8 +64,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     #[Assert\Length(
         min: 3,
-        minMessage: 'Le {{ label }} doit contenir au moins {{ min }} caractères.',
         max: 20,
+        minMessage: 'Le {{ label }} doit contenir au moins {{ min }} caractères.',
         maxMessage: 'Le {{ label }} doit contenir au maximum {{ max }} caractères.'
     )]
     private ?string $prenom = null;
@@ -99,16 +99,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->included_in_squads = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     *
+     * @return $this
+     */
     public function setEmail(string $email): static
     {
         $this->email = $email;
@@ -138,6 +149,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param array $roles
+     *
+     * @return $this
+     */
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
@@ -153,6 +169,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
+    /**
+     * @param string $password
+     *
+     * @return $this
+     */
     public function setPassword(string $password): static
     {
         $this->password = $password;
@@ -169,11 +190,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    /**
+     * @return bool
+     */
     public function isVerified(): bool
     {
         return $this->isVerified;
     }
 
+    /**
+     * @param bool $isVerified
+     *
+     * @return $this
+     */
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
@@ -181,11 +210,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getNom(): ?string
     {
         return $this->Nom;
     }
 
+    /**
+     * @param string $Nom
+     *
+     * @return $this
+     */
     public function setNom(string $Nom): static
     {
         $this->Nom = $Nom;
@@ -193,11 +230,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPrenom(): ?string
     {
         return $this->prenom;
     }
 
+    /**
+     * @param string $prenom
+     *
+     * @return $this
+     */
     public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
@@ -205,11 +250,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPhoneNumber(): ?string
     {
         return $this->PhoneNumber;
     }
 
+    /**
+     * @param string $PhoneNumber
+     *
+     * @return $this
+     */
     public function setPhoneNumber(string $PhoneNumber): static
     {
         $this->PhoneNumber = $PhoneNumber;
@@ -225,6 +278,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->squads;
     }
 
+    /**
+     * @param Squad $squad
+     *
+     * @return $this
+     */
     public function addSquad(Squad $squad): static
     {
         if (!$this->squads->contains($squad)) {
@@ -235,6 +293,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @param Squad $squad
+     *
+     * @return $this
+     */
     public function removeSquad(Squad $squad): static
     {
         if ($this->squads->removeElement($squad)) {
@@ -252,6 +315,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->friends;
     }
 
+    /**
+     * @param Friends $friend
+     *
+     * @return $this
+     */
     public function addFriend(Friends $friend): static
     {
         if (!$this->friends->contains($friend)) {
@@ -262,6 +330,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @param Friends $friend
+     *
+     * @return $this
+     */
     public function removeFriend(Friends $friend): static
     {
         if ($this->friends->removeElement($friend)) {

@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\SquadRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,9 +22,11 @@ class AccountController extends AbstractController
 {
 
     /**
-     * @param SquadRepository $SquadRepository
-     * @param Currentuser     $currentUser
+     * @param \App\Controller\SquadController $squad
+     * @param SquadRepository $squadRepository
      * @return Response
+     *
+     * @throws Exception
      */
     #[Route(path: '/', name: '_index')]
     public function index(SquadController $squad, SquadRepository $squadRepository, User $currentUser): Response
@@ -41,16 +44,20 @@ class AccountController extends AbstractController
     }
 
     /**
-     * @param EntityManagerInterface        $em
-     * @param Request                       $request
-     * @param UserPasswordHasherInterface   $userPasswordhasher
-     * @param #[CurrentUser]                $user
-     * 
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @param UserPasswordHasherInterface $userPasswordHasher
+     * @param $user
+     *
      * @return Response
      */
     #[Route(path: '/edit', name: '_edit')]
-    public function editAccount(EntityManagerInterface $em, Request $request, UserPasswordHasherInterface $userPasswordHasher, #[CurrentUser] $user): Response
-    {
+    public function editAccount(
+        EntityManagerInterface $em,
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        #[CurrentUser] $user
+    ): Response {
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
