@@ -1,21 +1,32 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-	<div class="container">
+	<div class="container text-center">
 		<h1>Mes Squads</h1>
+
 		<div class="row">
 			{% for squad in squads %}
 				<div class="col">
-					<div class="row">
-						{{squad.name}}
-					</div>
-					<div class="row">
-						{{squad.id}}
+
+					<div
+						class="card m-2" style="width: 18rem;">
+						{# <img src="..." class="card-img-top" alt="..."> #}
+						<div class="card-body">
+							<h5 class="card-title">{{squad.name}}</h5>
+							<p class="card-text">
+								{% for activities in squad %}
+									{{activities.name}}
+								{% endfor %}
+							</p>
+							<a href="{{path('app_squad_edit',{id: squad.id}) }}" class="btn btn-primary">Modifier</a>
+						</div>
 					</div>
 				</div>
 			{% endfor %}
-		</div>
-		<a href="{{path('app_squad_add')}}">Nouvelle Squad</a>
-	</div>
+			<a href="path('app_squad_add')" class="btn btn-primary">Nouvelle Squad</a>
 
-{% endblock %}
+			<h1 class="mt-5">
+				Mes amis
+			</h1>
+		</div>
+	{% endblock %}

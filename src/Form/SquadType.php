@@ -3,6 +3,7 @@
 namespace App\Form;
 
 
+use App\Entity\Activity;
 use App\Entity\User;
 use App\Entity\Squad;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -13,6 +14,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SquadType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     *
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -26,10 +33,25 @@ class SquadType extends AbstractType
                 'multiple' => true,
                 'label' => 'Membres à ajouter',
                 'placeholder' => 'Choisissez une option',
-                'choice_label' => 'prenom',
-            ]);
+                'choice_label' => 'nom',
+            ])
+
+            ->add('activities', EntityType::class, [
+                'class' => Activity::class,
+                'multiple' => true,
+                'label' => 'Activités',
+                'placeholder' => 'Choisissez une option',
+                'choice_label' => 'name',
+
+            ])
+        ;
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     *
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

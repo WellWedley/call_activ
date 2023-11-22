@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+	<div class="container">
+
+		<h1>Modifier la squad "{{squad.name}}"</h1>
+
+		{{form_start(form)}}
+		{{form_rest(form)}}
+		<button type="submit">Enregistrer</button>
+		{{form_end(form)}}
+
+		{% for activities in squad %}
+			{{activities.name}}
+		{% endfor %}
+
+	</div>
+
+
+{% endblock %}

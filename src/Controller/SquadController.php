@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Activity;
 use App\Entity\Squad;
 use App\Entity\User;
 use App\Form\SquadType;
@@ -28,12 +29,12 @@ class SquadController extends AbstractController
     public function showSquads(SquadRepository $SquadRepository): Response
     {
 
-        $squad = $SquadRepository->findAll();
+        $squads = $SquadRepository->findAll();
 
         return $this->render('squad/show.html.twig',
             [
                 'controller_name' => 'Mes Squads',
-                'squads' => $squad ?: [],
+                'squads' => $squads ?: [],
             ]
         );
     }
@@ -74,4 +75,39 @@ class SquadController extends AbstractController
             ]
         );
     }
+
+    /**
+     * @param int                       $id
+     * @param Request                   $request 
+     * @param EntityManagerInterface    $em
+     * @return Response
+     */
+    #[IsGranted('ROLE_USER', statusCode: 403, exceptionCode: 10010)]
+    #[Route('/edit/{id}', name: '_edit')]
+    public function editSquad(int $id, Request $request, EntityManagerInterface $em): Response
+    {
+        $squad = $em->getRepository(Squad::class)->find($id);
+
+        if (!$squad) {
+            throw $this->createNotFoundException(
+                'La squad' . $id . ' n\'existe pas ! '
+            );
+        }
+
+        $form = $this->createForm(SquadType::class, $squad);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+        }
+
+        return $this->render('squad/edit.html.twig', [
+            'controller_name' => "Modifier la squad " . $squad->getName(),
+            'squad' => $squad,
+            "form" => $form->createView()
+        ]
+        );
+    }
+
 }

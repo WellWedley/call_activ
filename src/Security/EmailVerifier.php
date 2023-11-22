@@ -4,21 +4,29 @@ namespace App\Security;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Mailer\MailerInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
-use App\Entity\User; 
-use Mailjet\Resources; 
+use App\Entity\User;
+use Mailjet\Resources;
 
 class EmailVerifier
 {
+    /**
+     * @param VerifyEmailHelperInterface $verifyEmailHelper
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(
-        private VerifyEmailHelperInterface $verifyEmailHelper,
-        private MailerInterface $mailer,
-        private EntityManagerInterface $entityManager
+        private readonly VerifyEmailHelperInterface $verifyEmailHelper,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
+    /**
+     * @param string $verifyEmailRouteName
+     * @param User $user
+     *
+     * @return void
+     */
     public function sendEmailConfirmation(string $verifyEmailRouteName, User $user): void
     {
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
@@ -28,16 +36,12 @@ class EmailVerifier
         );
 
         // MAILJET API TRANSPORT //
-        $_ENV['MAILER_DSN'] ;  
-        $MJ_APIKEY_PUBLIC=$_ENV['MJ_APIKEY_PUBLIC'] ;  
-        $MJ_APIKEY_PRIVATE = $_ENV['MJ_APIKEY_PRIVATE'] ;  
-        $SENDER_EMAIL = $_ENV['WEBSITE_EMAIL']; 
-        $RECIPIENT_EMAIL = $user->getEmail() ;
-        
-        //$context = $emailBody->getContext();
-        //$context['signedUrl'] = $signatureComponents->getSignedUrl();
-        //$context['expiresAtMessageKey'] = $signatureComponents->getExpirationMessageKey();
-        //$context['expiresAtMessageData'] = $signatureComponents->getExpirationMessageData();
+        $_ENV['MAILER_DSN'];
+        $MJ_APIKEY_PUBLIC = $_ENV['MJ_APIKEY_PUBLIC'];
+        $MJ_APIKEY_PRIVATE = $_ENV['MJ_APIKEY_PRIVATE'];
+        $SENDER_EMAIL = $_ENV['WEBSITE_EMAIL'];
+        $RECIPIENT_EMAIL = $user->getEmail();
+
         $body = [
             'Messages' => [
                 [
@@ -53,20 +57,26 @@ class EmailVerifier
                     ],
                     'Subject' => "Merci de confirmer votre Email",
                     'TextPart' => "Bienvenue sur Call'Activ ",
-                    'HTMLPart' => "Merci de cliquer sur le lien ci-desous afin de vérifier votre compte. <br>
-                    <a href=".$signatureComponents->getSignedUrl().">Confirmer mon compte</a>"
+                    'HTMLPart' => "Bonjour " . $user->getPrenom() . ", clique sur le lien ci-desous afin de vérifier ton compte. <br>
+                    <a href=" . $signatureComponents->getSignedUrl() . ">Confirmer mon compte</a>"
                 ]
             ]
         ];
-        
-        
-        $mj = new \Mailjet\Client($MJ_APIKEY_PUBLIC, $MJ_APIKEY_PRIVATE,true,['version' => 'v3.1']);
+
+
+        $mj = new \Mailjet\Client($MJ_APIKEY_PUBLIC, $MJ_APIKEY_PRIVATE, true, ['version' => 'v3.1']);
         $response = $mj->post(Resources::$Email, ['body' => $body]);
         $response->success() && var_dump($response->getData());
 
     }
 
+
     /**
+     * @param Request $request
+     * @param User $user
+     *
+     * @return void
+     *
      * @throws VerifyEmailExceptionInterface
      */
     public function handleEmailConfirmation(Request $request, User $user): void
