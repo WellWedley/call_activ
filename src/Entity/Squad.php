@@ -32,6 +32,10 @@ class Squad
     #[ORM\ManyToMany(targetEntity: Activity::class, mappedBy: 'Squad')]
     private Collection $activities;
 
+    #[ORM\ManyToOne(inversedBy: 'included_in_squads')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?user $owner = null;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
@@ -128,6 +132,18 @@ class Squad
         if ($this->activities->removeElement($activity)) {
             $activity->removeSquad($this);
         }
+
+        return $this;
+    }
+
+    public function getOwner(): ?user
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?user $owner): static
+    {
+        $this->owner = $owner;
 
         return $this;
     }

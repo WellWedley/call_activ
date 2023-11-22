@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\SquadRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,10 +29,17 @@ class AccountController extends AbstractController
      * @throws Exception
      */
     #[Route(path: '/', name: '_index')]
-    public function index(SquadController $squad, SquadRepository $squadRepository): Response
+    public function index(SquadController $squad, SquadRepository $squadRepository, User $currentUser): Response
     {
 
-        return $squad->showSquads($squadRepository);
+        $squads = $squadRepository->findAll();
+
+        return $this->render('squad/show.html.twig',
+            [
+                'controller_name' => 'Mes Squads',
+                'squads' => $squads ?: [],
+            ]
+        );
 
     }
 
